@@ -1,0 +1,451 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital@1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@300;400&display=swap');
+body{
+  height: 100%;
+margin: 0;
+margin:0;
+}
+
+.wrapper{
+  justify-content: center;
+        
+    
+  position: relative;
+  display:flex;
+  
+  // min-height: 450px;
+  border-radius: 10px;
+  background-color: #fff;
+  // margin:0 15px;
+  margin:0 15px 0 10px;
+  z-index: 2;
+}
+
+@media (max-width: 350px) {
+  // .modal{align-items: normal;}
+  .wrapper{
+      align-self: normal;
+      margin-top:20px;
+      margin-bottom:20px;
+      // min-height: 75%;
+      
+      overflow-y:scroll;
+  }
+}
+
+@media (max-height: 450px) {
+  .wrapper{
+   align-self: normal;
+   
+   
+}
+
+.wrapper{
+  overflow-y: scroll;
+  min-height: auto;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+  
+}
+
+
+
+
+
+
+
+
+
+.calculator{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 450px;
+    max-width:620px;
+    
+  
+  
+    
+
+    
+}
+
+.calculator__inner{
+  display: flex;
+  flex-grow: 1;
+}
+
+.calculator__right__inner{
+    flex-grow: 1;
+    background-color: #edeef0;
+    border-radius: 0 10px 0 0;
+
+}
+
+.calculator__left__inner{
+    min-height: 100%;
+    display: flex;
+    flex-grow: 1.2;
+    flex-basis: 0;
+    flex-direction: column;
+    
+
+
+    // background-color: rgba($color: #19939744, $alpha: .1);
+
+    h3{
+        margin-left: 20px;
+        font-family: Raleway;
+       
+        
+    }
+
+    section{
+        height: 100%;
+        flex-grow: 2;
+        border-bottom-left-radius: 12px;
+        
+    }
+
+    .option__list{
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      min-height: 100%;
+      padding: 0;
+      list-style: none;
+      margin: 0;
+      
+    
+      
+        
+        
+        
+
+        li{
+          position: relative;
+          display: flex;
+          align-items: center;
+          flex-grow: 1;
+          margin-left:20px;
+          padding-right:10px;
+          border-bottom: 1px solid #dfdadb33;
+          // border-bottom: 2px solid rgba(49, 49, 49, 0.6);
+
+          &::after{
+            content: "";
+width: 14px;
+height: 14px;
+
+
+background-size: 14px;
+top: 11px;
+right: 8px;
+opacity: .1;
+transition: opacity .1s ease-in;
+position: absolute;
+display: inline-block;
+          }
+          &.active::after{
+            opacity: .7;
+          }
+           
+          }
+
+
+      
+
+        input{
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+
+      
+
+        
+
+        h5{
+            display:inline; 
+            font-family: Raleway;
+            margin: 15px 0 15px 0;
+            width: fit-content;
+            label{
+            cursor:pointer;
+            
+            }
+            
+            
+        }
+        
+    }
+
+}
+
+
+
+@supports(-webkit-appearance: none) or (-moz-appearance: none) {
+    input[type='checkbox'] {
+      --active: #333533;
+      --active-inner: rgb(255, 255, 255);
+      --focus: 2px rgba(105, 223, 140, 0);
+      --border: #BBC1E1;
+      --border-hover: #7d847e;
+      --background: #fff;
+      --disabled: #F6F8FF;
+      --disabled-inner: #E1E6F9;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      -webkit-tap-highlight-color: transparent;
+      // height: 21px;
+      height: 23px;
+      outline: none;
+      display: inline-block;
+      vertical-align: top;
+      position: relative;
+      margin: 0;
+      cursor: pointer;
+      border: 1px solid var(--bc, var(--border));
+      background: var(--b, var(--background));
+      transition: background .3s, border-color .3s, box-shadow .2s;
+      &:after {
+        content: '';
+        display: block;
+        left: 0;
+        top: 0;
+        position: absolute;
+        transition: opacity var(--d-o, .2s);
+      }
+      &:checked {
+        --b: var(--active);
+        --bc: var(--active);
+        --d-o: .3s;
+        --d-t: .6s;
+        --d-t-e: cubic-bezier(.2, .85, .32, 1.2);
+      }
+      &:disabled {
+        --b: var(--disabled);
+        cursor: pointer;
+        opacity: .9;
+        &:checked {
+          --b: var(--disabled-inner);
+          --bc: var(--border);
+        }
+        & + label {
+          cursor: pointer;
+        }
+      }
+      &:hover {
+        &:not(:checked) {
+          &:not(:disabled) {
+            --bc: var(--border-hover);
+          }
+        }
+      }
+      &:focus {
+        box-shadow: 0 0 0 var(--focus);
+      }
+      &:not(.switch) {
+        // width: 21px;
+        width: 23px;
+        &:after {
+          opacity: var(--o, 0);
+        }
+        &:checked {
+          --o: 1;
+        }
+      }
+      & + label {
+        font-size: 14px;
+        line-height: 21px;
+        display: inline-block;
+        vertical-align: top;
+        cursor: pointer;
+        margin-left: 4px;
+      }
+    }
+    input[type='checkbox'] {
+      &:not(.switch) {
+        border-radius: 4px;
+        &:after {
+          width: 5px;
+          // height: 9px;
+          height: 10px;
+          border: 2px solid var(--active-inner);
+          border-top: 0;
+          border-left: 0;
+          // left: 7px;
+          left: 8px;
+          top: 4px;
+          transform: rotate(var(--r, 43deg));
+        }
+        &:checked {
+          --r: 43deg;
+        }
+      }
+      &.switch {
+        width: 38px;
+        border-radius: 11px;
+        &:after {
+          left: 2px;
+          top: 2px;
+          border-radius: 50%;
+          width: 15px;
+          height: 15px;
+          background: var(--ab, var(--border));
+          transform: translateX(var(--x, 0));
+        }
+        &:checked {
+          --ab: var(--active-inner);
+          --x: 17px;
+        }
+        &:disabled {
+          &:not(:checked) {
+            &:after {
+              opacity: .6;
+            }
+          }
+        }
+      }
+    }
+
+  }
+
+
+  .calculator__right__inner{
+    display: flex;
+    box-sizing: border-box;
+    padding-top:60px;
+    // padding-bottom: 20px;
+    flex-basis: 0;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100%;
+
+
+
+  }
+
+  .info__window{
+    max-width: 200px;
+    max-height: 300px;
+    overflow-y: auto;
+    // min-width: 112px;
+    padding: 10px;
+    
+    border-radius: 5px;
+    border: 2px dashed #dfdadb;
+    background-color: rgb(255,255, 255);
+  }
+
+  .information__content{
+    font-family: Source Serif Pro;
+  }
+
+  .price__and__order{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: Source Serif Pro;
+    font-size: 1.3em;
+    background-color: rgb(38, 38, 36);
+    padding-bottom:15px;
+    padding-top:5px;
+    border-radius: 0 0 9px 9px;
+
+    h5{
+      margin:0;
+    }
+  }
+
+  .show__form__button{
+    box-shadow: -3px 0px 16px -5px #000000;
+    margin-bottom:5px;
+  background-color:#387d43;
+  min-width: 40%;
+  text-align: center;
+	border-radius:8px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:14px;
+	padding:8px 25px;
+  text-decoration:none;
+  transition: box-shadow .2s ease-in-out;
+  -webkit-tap-highlight-color: transparent;
+  
+  &:hover{
+    box-shadow: -3px 0px 12px -5px #000000;
+    transition: box-shadow .2s ease-in-out;
+  }
+  }
+  .price {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 5px;
+    min-width: 20px;
+    color: rgb(255, 255, 255);
+  }
+
+  @media (max-width: 600px) {
+    .information__content{
+      font-size: 0.9em;
+    }
+
+    
+    
+
+  }
+
+  @media (max-width: 320px) {
+
+    .option__list{
+      li{
+        font-size: 0.9em;
+        
+      }
+    }
+
+    .information__content{
+      // font-size: 0.8em;
+      font-size: 0.85em;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .calculator{
+    min-height:490px;
+    }
+  }
+
+  @media (max-width: 350px) {
+    .calculator{
+      min-height: 550px;
+      li{max-height: 79px;}
+    }
+  }
+
+  @media (max-height: 450px) {
+    .calculator{
+      // overflow-y: scroll;
+      
+
+    };
+
+    @media (max-height: 430px) {
+      .calculator{
+        // overflow-y: scroll;
+        min-height: 550px;
+      }
+      };
+  
+
+    .information__content{
+      font-size: 0.95em
+    }
+  }
