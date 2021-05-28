@@ -55,20 +55,141 @@ const information = {
 
 
 function Calculator(props) {
+    
 
-    let inform = {};
+    const [calcState, setCalcState] = useState({
+        yinformationContent:{},
+        ycalcOptions: [],
+        yoptionsChecked: {},
+        yinitialPrice: 0,
+        ytotalPrice: 0
 
-    for (let prop in props.options){
 
-        if(props.options[prop].length >= 2 && typeof(props.options[prop][props.options[prop].length-1]) === 'object' ){
-            inform[prop] = 
-            <div className="information__content">
-            {props.options[prop][props.options[prop].length-1]}
-            </div>
+    });
+
+
+
+
+
+
+
+    useEffect(()=>{
+
+        // Set information content
+
+        let informationContent = {}
+
+        for (let prop in props.options){
+
+            if(props.options[prop].length >= 2 && typeof(props.options[prop][props.options[prop].length-1]) === 'object' ){
+
+
+              informationContent[prop] = <div className="information__content">
+
+                       {props.options[prop][props.options[prop].length-1]}
+
+                   </div>
+            }
         }
+
+        setCalcState((prevState)=>({
+        ...prevState, 
+        yinformationContent: informationContent
+    }))
+
+
+
+    // Set initial price
+
+    let fullprice = props.initialPrice ? props.initialPrice : null;
+    for(let prop in props.options){
+    
+    if( props.options[prop].length >= 2 && typeof(props.options[prop][1]) != 'object' && props.options[prop][1] ){
+
+        fullprice += props.options[prop][0];
+
+    } 
+}
+
+     setCalcState((prevState)=>({...prevState, ytotalPrice: fullprice}));
+
+     
+
+
+    // Set calc options
+
+    let calcOptions = [];
+
+    for( let option in props.options){
+
+        // typeof(props.options[prop][1]) != 'object' )
+
+        let optionChecked = props.options[option].length >= 2 && typeof(props.options[option][1]) != 'object'  ? props.options[option][1] : false;
+
+        
+      
+        calcOptions.push(
+
+            <li key = {option} className = {info == option ? 'active' : ''} onPointerOver = {() => showInfo(option)}>
+                        
+            <input onPointerOver = {(e) =>{preventInputPropagation(e)}}  onClick = {(e) => addRemoveOption(e, props.options[option][0],option)}   type="checkbox" name = {option} id = {option} defaultChecked = {optionChecked}  />
+            <h5><label htmlFor={!isMobile ? option : '#'}> {option}</label></h5>
+            
+            
+       </li>
+
+            
+        )
+        
     }
 
-    console.log('INFORMfunc',inform)
+
+    setCalcState((prevState)=>({
+        ...prevState, 
+        ycalcOptions: calcOptions
+    }))
+
+
+
+    //  Set checked options
+
+
+    let optionsobject = {};
+
+
+    for(let prop in props.options){
+
+    
+        if(props.options[prop].length >= 2 && typeof(props.options[prop][1]) != 'object' ){
+            optionsobject[prop] = props.options[prop][1];
+            
+        } else {
+            
+            optionsobject[prop] = false;
+            
+        }
+            
+    }
+
+    
+    setCalcState((prevState)=>({
+        ...prevState, 
+        yoptionsChecked: optionsobject
+    }))
+
+        
+
+
+
+
+
+
+
+    },[])
+
+   
+
+   
     
 
 
@@ -77,7 +198,6 @@ function Calculator(props) {
     
     const [info, setInfo] = useState('Хост и домен');
     const [initiallPrice, setInitiallPrice] = useState();
-    const [totalPrice, setPrice ] = useState();
 
     const [calccOptions, setCalccOptions] = useState();
 
@@ -111,7 +231,9 @@ function Calculator(props) {
         console.log('Мега хук',props.options[option][0])
         console.log('Мега хук', option)
     }
-setCalccOptions(calcOptions);
+
+
+
 
 
 
@@ -185,35 +307,19 @@ setCalccOptions(calcOptions);
         }
 
         
-        
-        
+
 
         setOptionsChecked(optionsobject);
         console.log('DONE')
        
-        // setPrice(fullprice);
+    
         
     }, [])
 
   
 
-    useEffect(() => {
 
-        let fullprice = props.initialPrice ? props.initialPrice : null;
-        for(let prop in props.options){
-        
-        if( props.options[prop].length >= 2 && typeof(props.options[prop][1]) != 'object' && props.options[prop][1] ){
-
-            fullprice += props.options[prop][0];
-
-        } 
-    }
-
-         setPrice(fullprice);
-
-    },[])
-
-    console.log('TOTAL', totalPrice);
+    
 
     
 
@@ -262,7 +368,10 @@ setCalccOptions(calcOptions);
       
       
     
+useEffect(() =>{
 
+    console.log('OPTIONS CHEECKED',calcState);
+},[calcState['yoptionsChecked']])
   
     
     
@@ -278,24 +387,35 @@ setCalccOptions(calcOptions);
     function preventInputPropagation(e){
         e.stopPropagation();
     }
+ 
+     
+      function addRemoveOption  (e, price, optionName)  {
 
-    function addRemoveOption(e, price, optionName){
         
-        setOptionsChecked({...checked,  [optionName]: !optionsChecked[optionName]});
-        console.log(totalPrice)
+    
+        setCalcState((prevState)=>({
+            ...prevState,
+            yoptionsChecked: {
+            ...prevState.yoptionsChecked,
+             [optionName]: !prevState['yoptionsChecked'][optionName]}
+
+        }))
+
+            
+        if (price == undefined) return;
         
         let optionChecked = e.target.checked;
-        let startPrice = totalPrice;
+        let startPrice = calcState['ytotalPrice'];
         let endPrice; 
         let step = 20;
 
         
     
         optionChecked ?  
-        endPrice = totalPrice + price :
-         endPrice = totalPrice - price;
+        endPrice = calcState['ytotalPrice'] + price :
+         endPrice = calcState['ytotalPrice'] - price;
 
-         console.log('TOTALI', endPrice )
+         console.log('TOTALI', endPrice, startPrice )
 
         
         function incrementPrice() {
@@ -311,7 +431,17 @@ setCalccOptions(calcOptions);
         //
         let priceCounter = setInterval(() => {
 
-            setPrice((prev) => optionChecked ? prev + step : prev - step);
+
+            setCalcState((prev)=>(optionChecked ? {
+                ...prev, ytotalPrice: prev.ytotalPrice + step
+
+            }  : 
+            {
+                ...prev, ytotalPrice: prev.ytotalPrice - step
+
+            }
+            ))
+
             count();
 
             if(startPrice == endPrice){
@@ -322,7 +452,10 @@ setCalccOptions(calcOptions);
             
             }
         }, 10);
+
+        
     }
+    
     
     return(
         <div className = 'calculator'>
@@ -339,7 +472,7 @@ setCalccOptions(calcOptions);
                 
                 <ul className = 'option__list'>
 
-                    {calccOptions}
+                    {calcState['ycalcOptions']}
                     
 
                     {/* <li className = {info == 'host_domain' ? 'active' : ''} onPointerOver = {() => showInfo('host_domain')}>
@@ -401,7 +534,7 @@ setCalccOptions(calcOptions);
                 <div className="info__window">
                     
                     
-                    {inform[info] || <div className = 'information__content'><p>No Information</p></div>}
+                    {calcState['yinformationContent'][info] || <div className = 'information__content'><p>No Information</p></div>}
 
                 </div>
 
@@ -412,7 +545,7 @@ setCalccOptions(calcOptions);
             </div>
             <div className="price__and__order">
             {/* <h5>Итоговая цена:</h5> */}
-                {optionsChecked && <div className = 'price'>  ≈ {totalPrice}₽</div>}
+                {optionsChecked && <div className = 'price'>  ≈ {calcState['ytotalPrice']}₽</div>}
 
                 
                 </div>
