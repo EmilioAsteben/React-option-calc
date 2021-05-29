@@ -12,12 +12,12 @@ function Calculator(props) {
     
     
     const [calcState, setCalcState] = useState({
-        yinformationContent:{},
+        informationContent:{},
         info: 'Хост и домен',
-        ycalcOptions: [],
-        yoptionsChecked: {},
-        yinitialPrice: 0,
-        ytotalPrice: 0
+        calcOptions: [],
+        optionsChecked: {},
+        initialPrice: 0,
+        totalPrice: 0
 
 
     });
@@ -46,7 +46,7 @@ function Calculator(props) {
 
         setCalcState((prevState)=>({
         ...prevState, 
-        yinformationContent: informationContent
+        informationContent: informationContent
     }))
 
 
@@ -63,7 +63,7 @@ function Calculator(props) {
     } 
 }
 
-     setCalcState((prevState)=>({...prevState, ytotalPrice: fullprice}));
+     setCalcState((prevState)=>({...prevState, totalPrice: fullprice}));
 
      
 
@@ -90,10 +90,10 @@ function Calculator(props) {
     
     setCalcState((prevState)=>({
         ...prevState, 
-        yoptionsChecked: optionsobject
+        optionsChecked: optionsobject
     }))
 
-        initialInfoConent = '';
+        
 
         
 
@@ -119,7 +119,7 @@ function Calculator(props) {
       
         calcOptions.push(
 
-            <li key = {option} className = {activeListItem() == option ? 'active' : ''} onPointerOver = {() => showInfo(option)}>
+            <li key = {option} className = {calcState['info'] == option ? 'active' : ''} onPointerOver = {() => showInfo(option)}>
                         
             <input onPointerOver = {(e) =>{preventInputPropagation(e)}}  onClick = {(e) => addRemoveOption(e, props.options[option][0],option)}   type="checkbox" name = {option} id = {option} defaultChecked = {optionChecked}  />
             <h5><label htmlFor={!isMobile ? option : '#'}> {option}</label></h5>
@@ -135,7 +135,7 @@ function Calculator(props) {
 
     setCalcState((prevState)=>({
         ...prevState, 
-        ycalcOptions: calcOptions
+        calcOptions: calcOptions
     }))
        
     },[calcState['info']])
@@ -145,20 +145,14 @@ function Calculator(props) {
     
 useEffect(() =>{
     console.log('OPTIONS CHEECKED',calcState);
-},[calcState['yoptionsChecked']])
+},[calcState['optionsChecked']])
   
     
     
-    
-    function activeListItem(){
-        return(
-        calcState['info']
-        )
-    }
 
     function showInfo(option){
         
-        setInfo(option);
+        
 
         setCalcState((prevState)=>({
             ...prevState,
@@ -180,9 +174,9 @@ useEffect(() =>{
     
         setCalcState((prevState)=>({
             ...prevState,
-            yoptionsChecked: {
-            ...prevState.yoptionsChecked,
-             [optionName]: !prevState['yoptionsChecked'][optionName]}
+            optionsChecked: {
+            ...prevState.optionsChecked,
+             [optionName]: !prevState['optionsChecked'][optionName]}
 
         }))
 
@@ -190,15 +184,15 @@ useEffect(() =>{
         if (price == undefined) return;
         
         let optionChecked = e.target.checked;
-        let startPrice = calcState['ytotalPrice'];
+        let startPrice = calcState['totalPrice'];
         let endPrice; 
         let step = 20;
 
         
     
         optionChecked ?  
-        endPrice = calcState['ytotalPrice'] + price :
-         endPrice = calcState['ytotalPrice'] - price;
+        endPrice = calcState['totalPrice'] + price :
+         endPrice = calcState['totalPrice'] - price;
 
 
         
@@ -217,11 +211,11 @@ useEffect(() =>{
 
 
             setCalcState((prev)=>(optionChecked ? {
-                ...prev, ytotalPrice: prev.ytotalPrice + step
+                ...prev, totalPrice: prev.totalPrice + step
 
             }  : 
             {
-                ...prev, ytotalPrice: prev.ytotalPrice - step
+                ...prev, totalPrice: prev.totalPrice - step
 
             }
             ))
@@ -256,7 +250,7 @@ useEffect(() =>{
                 
                 <ul className = 'option__list'>
 
-                    {calcState['ycalcOptions']}
+                    {calcState['calcOptions']}
                     
                    
 
@@ -273,7 +267,7 @@ useEffect(() =>{
                 <div className="info__window">
                     
                     
-                    {calcState['yinformationContent'][calcState['info']] || <div className = 'information__content'><p>No Information</p></div>}
+                    {calcState['informationContent'][calcState['info']] || <div className = 'information__content'><p>No Information</p></div>}
 
                 </div>
 
@@ -281,7 +275,7 @@ useEffect(() =>{
             </div>
             </div>
             <div className="price__and__order">
-                {<div className = 'price'>  ≈ {calcState['ytotalPrice']}₽</div>}
+                {<div className = 'price'>  ≈ {calcState['totalPrice']}₽</div>}
 
                 
                 </div>
