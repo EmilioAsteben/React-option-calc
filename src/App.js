@@ -1,23 +1,11 @@
-import logo from './logo.svg';
 import Calculator from './Calculator';
-import ClassCalculator from './ClassCalculator';
 import { useEffect, useState } from 'react';
 import './App.css';
 import './calculator.scss';
 
 function App() {
 
-  const [choosedOptions, setChoosedOptions] = useState({});
 
-  // const [optionChecked, setOptionChecked] = 
-  // useState({
-  //     'Хост и домен': true,
-  //     search_index: false,
-  //     ssl: false,
-  //     map: false,
-  //     open_graph: false,
-
-  // });
 
   let options = {
     'Хост и домен': [500, true,
@@ -55,28 +43,25 @@ function App() {
     
   }
 
+  const [data, setData] = useState();
 
-//   const checkedOption = {
 
-//     optionChecked: optionChecked,
-//     setOptionChecked: setOptionChecked,
-// }
+
+
   return (
     <div className="App">
       <div className="wrapper">
       <Calculator
       options = {options}
       initialPrice = {4000}
+      setData = {setData}
 
       
       ></Calculator>
 
-      <ClassCalculator
-      options = {options}
-      initialPrice = {4000}
-
-      
-      />
+      <div className="recieved__data">
+        
+      </div>
         
       </div>
       
